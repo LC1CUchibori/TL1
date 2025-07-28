@@ -119,13 +119,19 @@ void GameScene::Initialize() {
 		}
 	}
 
-	for (auto& ObjectData : levelData->objects) {
-		Model* model = nullptr;
+	for (auto& objectData : levelData->objects) {
+		// ここで objectData を使って処理する
+		Model* model = Model::CreateFromOBJ(objectData.file_name);  // または Model::Create()
 
+		WorldTransform worldTransform;
+		worldTransform.Initialize();
+		worldTransform.translation_ = objectData.transform.translation;
+		worldTransform.rotation_ = objectData.transform.rotation;
+		worldTransform.scale_ = objectData.transform.scaling;
+		worldTransform.UpdateMatrix();
 
-	
-
-
+		models_.push_back(model);
+		worldTransforms_.push_back(worldTransform);
 	}
 }
 
@@ -157,6 +163,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	for (size_t i = 0; i < models_.size(); ++i) {
+		models_[i]->Draw(worldTransforms_[i], *viewProjection_); 
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

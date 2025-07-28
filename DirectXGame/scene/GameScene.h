@@ -44,6 +44,11 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
+	std::vector<Model*> models_;                     // モデルのポインタ配列
+	std::vector<WorldTransform> worldTransforms_; 
+
+
+	ViewProjection* viewProjection_ = nullptr;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
